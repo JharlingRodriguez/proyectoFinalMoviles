@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicioService } from '../service/servicio.service';
+
 import { AlertController } from '@ionic/angular';
 
 
@@ -40,5 +41,5 @@ export class RegistrarPage  {
       console.error('Error de registro:', error);
     }
   }
-  
+ 
 }
