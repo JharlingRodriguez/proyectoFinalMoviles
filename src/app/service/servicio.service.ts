@@ -39,4 +39,30 @@ export class ServicioService {
     return this.afAuth.signOut();
   }
 
+    // Registrar alumno en Firebase
+    registrarAlumno(nombre: string, seccion: string) {
+      return this.firestore.collection('alumnos').add({ nombre, seccion });
+    }
+  
+    // Obtener alumnos de Firebase
+    obtenerAlumnos() {
+      return this.firestore.collection('alumnos').snapshotChanges();
+    }
+  
+    // Eliminar alumno de Firebase
+    eliminarAlumno(id: string) {
+      return this.firestore.collection('alumnos').doc(id).delete();
+    }
+  
+    // Registrar recogida en Firebase
+    registrarRecogida(carril: string, alumnoId: string) {
+      return this.firestore.collection('recogidas').add({ carril, alumnoId });
+    }
+  
+    // Eliminar recogida de Firebase
+    eliminarRecogida(id: string) {
+      return this.firestore.collection('recogidas').doc(id).delete();
+    }
+  
+
 }

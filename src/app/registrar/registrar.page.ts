@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicioService } from '../service/servicio.service';
 
+
 @Component({
   selector: 'app-registrar',
   templateUrl: './registrar.page.html',
