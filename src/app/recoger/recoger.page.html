@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>recoger</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- En tu archivo HTML (recoger-alumno.page.html) -->
+<ion-content>
+  <ion-item>
+    <ion-label>Carril</ion-label>
+    <ion-select [(ngModel)]="carril" placeholder="Seleccionar">
+      <ion-select-option value="carril1">Carril 1</ion-select-option>
+      <ion-select-option value="carril2">Carril 2</ion-select-option>
+      <ion-select-option value="carril3">Carril 3</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="full" (click)="registrarRecogida()">Llegué</ion-button>
+  <ion-button expand="full" (click)="eliminarRecogida(alumnoId)">Alumno a Bordo</ion-button>
+</ion-content>
+
