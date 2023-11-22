@@ -1,6 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import { ServicioService } from '../service/servicio.service';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-alumno',
@@ -13,7 +14,16 @@ export class RegistrarAlumnoPage  {
   alumnos: any=[];
 
 
-  constructor(private firebaseService:ServicioService, private alertController: AlertController) { }
+  
+  constructor(private firebaseService:ServicioService, private userService: ServicioService, private router: Router, private alertController: AlertController) { }
+
+  onClick() {
+    this.userService.signOut()
+      .then(() => {
+        this.router.navigate(['/main']);
+      })
+      .catch(error => console.log(error));
+  }
 
   async registrarAlumno() {
     try {
