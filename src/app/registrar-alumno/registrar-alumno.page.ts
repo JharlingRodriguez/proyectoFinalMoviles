@@ -7,48 +7,47 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './registrar-alumno.page.html',
   styleUrls: ['./registrar-alumno.page.scss'],
 })
-export class RegistrarAlumnoPage  {
+export class RegistrarAlumnoPage implements OnInit {
   nombre: string="";
   seccion: string="";
-  alumnos: any=[];
+  alumnos: any;
 
 
   constructor(private firebaseService:ServicioService, private alertController: AlertController) { }
 
-  async registrarAlumno() {
-    try {
-      await this.firebaseService.registrarAlumno(this.nombre, this.seccion);
-  
-      const alert = await this.alertController.create({
-        header: 'Registro de Alumno',
-        message: 'Alumno registrado con éxito.',
-        buttons: ['OK']
-      });
-  
-      await alert.present();
-  
-      console.log('Alumno registrado con éxito');
-    } catch (error) {
-      console.error('Error al registrar alumno:', error);
+  registrarAlumno() {
+    if (this.firebaseService.usuarioActual) {
+      const usuarioUid = this.firebaseService.usuarioActual.uid;
+
+      this.firebaseService.registrarAlumno(this.nombre, this.seccion, usuarioUid)
+        .then(() => {
+          console.log('Alumno registrado con éxito');
+        })
+        .catch((error) => {
+          console.error('Error al registrar alumno:', error);
+        });
     }
   }
   
 
-OnInit() {
+ngOnInit() {
   this.obtenerAlumnos();
 }
 
+
 obtenerAlumnos() {
-  this.firebaseService.obtenerAlumnos().subscribe((data) => {
-    this.alumnos = data.map((e) => {
-      return {
-        id: e.payload.doc.id,
-        ...(e.payload.doc.data() as {}),
-      };
-      console.log(data)
+  if (this.firebaseService.usuarioActual) {
+    const usuarioUid = this.firebaseService.usuarioActual.uid;
+
+    this.firebaseService.obtenerAlumnosPorUsuario(usuarioUid).subscribe((data) => {
+      this.alumnos = data.map((e) => {
+        return {
+          id: e.payload.doc.id,
+          ...(e.payload.doc.data() as {}),
+        };
+      });
     });
-  });
-  
+  }
 }
 
 eliminarAlumno(id: string) {

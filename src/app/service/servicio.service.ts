@@ -7,10 +7,17 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class ServicioService {
 
+  usuarioActual: any
+
   constructor(
     private afAuth: AngularFireAuth,
     private firestore: AngularFirestore
-  ) { }
+  ) { 
+
+    this.afAuth.authState.subscribe((usuario) => {
+      this.usuarioActual = usuario;
+    });
+  }
 
   async signUp(nombre: string, cedula: string, celular: string, correo: string, password: string): Promise<void> {
     const userCredential = await this.afAuth.createUserWithEmailAndPassword(cedula, password);
@@ -39,15 +46,15 @@ export class ServicioService {
     return this.afAuth.signOut();
   }
 
-    // Registrar alumno en Firebase
-    registrarAlumno(nombre: string, seccion: string) {
-      return this.firestore.collection('alumnos').add({ nombre, seccion });
-    }
+
+  registrarAlumno(nombre: string, seccion: string, usuarioUid: string) {
+    return this.firestore.collection('alumnos').add({ nombre, seccion, usuarioUid });
+  }
   
     // Obtener alumnos de Firebase
-    obtenerAlumnos() {
-      return this.firestore.collection('alumnos').snapshotChanges();
-    }
+obtenerAlumnosPorUsuario(usuarioUid: string) {
+  return this.firestore.collection('alumnos', ref => ref.where('usuarioUid', '==', usuarioUid)).snapshotChanges();
+}
   
     // Eliminar alumno de Firebase
     eliminarAlumno(id: string) {
