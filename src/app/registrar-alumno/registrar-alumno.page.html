@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>registrarAlumno</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Nombre del Alumno</ion-label>
+    <ion-input type="text" [(ngModel)]="nombre" required></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Sección</ion-label>
+    <ion-select [(ngModel)]="seccion" placeholder="Seleccionar">
+      <ion-select-option value="prescolar">Prescolar</ion-select-option>
+      <ion-select-option value="primaria">Primaria</ion-select-option>
+      <ion-select-option value="bachillerato">Bachillerato</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="full" (click)="registrarAlumno()">Registrar Alumno</ion-button>
+</ion-content>
