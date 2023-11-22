@@ -12,7 +12,7 @@
 
   <ion-item>
     <ion-label>Sección</ion-label>
-    <ion-select [(ngModel)]="seccion" placeholder="Seleccionar">
+    <ion-select [(ngModel)]="seccion" placeholder="Seleccionar" aria-label="Sección">
       <ion-select-option value="prescolar">Prescolar</ion-select-option>
       <ion-select-option value="primaria">Primaria</ion-select-option>
       <ion-select-option value="bachillerato">Bachillerato</ion-select-option>
@@ -21,8 +21,6 @@
 
   <ion-button expand="full" (click)="registrarAlumno()">Registrar Alumno</ion-button>
 
-  <!-- En tu archivo HTML (home.page.html) -->
-<ion-content>
   <ion-grid>
     <ion-row>
       <ion-col>Nombre</ion-col>
@@ -38,6 +36,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-</ion-content>
-
 </ion-content>
