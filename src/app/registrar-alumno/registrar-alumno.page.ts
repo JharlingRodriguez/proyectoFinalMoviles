@@ -1,7 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { ServicioService } from '../service/servicio.service';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-alumno',
@@ -14,29 +13,32 @@ export class RegistrarAlumnoPage implements OnInit {
   alumnos: any;
 
 
-  
-  constructor(private firebaseService:ServicioService, private userService: ServicioService, private router: Router, private alertController: AlertController) { }
-
-  onClick() {
-    this.userService.signOut()
-      .then(() => {
-        this.router.navigate(['/main']);
-      })
-      .catch(error => console.log(error));
-  }
+  constructor(private firebaseService:ServicioService, private alertController: AlertController) { }
 
   registrarAlumno() {
     if (this.firebaseService.usuarioActual) {
       const usuarioUid = this.firebaseService.usuarioActual.uid;
-
+  
       this.firebaseService.registrarAlumno(this.nombre, this.seccion, usuarioUid)
         .then(() => {
           console.log('Alumno registrado con éxito');
+          this.presentAlert('Éxito', 'Alumno registrado con éxito.');
         })
         .catch((error) => {
           console.error('Error al registrar alumno:', error);
+          this.presentAlert('Error', 'Hubo un error al registrar al alumno.');
         });
     }
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+  
+    await alert.present();
   }
   
 
