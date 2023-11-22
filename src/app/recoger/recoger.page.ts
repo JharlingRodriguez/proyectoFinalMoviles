@@ -8,7 +8,8 @@ import { ServicioService } from '../service/servicio.service';
 })
 export class RecogerPage  {
   carril: string="";
-  alumnoId: string="";
+usuarioUid: any= this.firebaseService.usuarioActual.uid;;
+  
 
   constructor(private firebaseService:ServicioService) { }
 
@@ -16,7 +17,8 @@ export class RecogerPage  {
   //}
 
   registrarRecogida() {
-    this.firebaseService.registrarRecogida(this.carril, this.alumnoId)
+    const usuario = this.firebaseService.usuarioActual.uid;
+    this.firebaseService.registrarRecogida(this.carril, usuario)
       .then(() => {
         console.log('Recogida registrada con éxito');
       })
