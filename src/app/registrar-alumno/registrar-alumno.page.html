@@ -20,4 +20,24 @@
   </ion-item>
 
   <ion-button expand="full" (click)="registrarAlumno()">Registrar Alumno</ion-button>
+
+  <!-- En tu archivo HTML (home.page.html) -->
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>Nombre</ion-col>
+      <ion-col>Sección</ion-col>
+      <ion-col>Acciones</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let alumno of alumnos">
+      <ion-col>{{ alumno.nombre }}</ion-col>
+      <ion-col>{{ alumno.seccion }}</ion-col>
+      <ion-col>
+        <ion-button (click)="eliminarAlumno(alumno.id)">Eliminar</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
 </ion-content>
