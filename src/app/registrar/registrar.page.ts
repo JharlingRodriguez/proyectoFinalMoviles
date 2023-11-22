@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicioService } from '../service/servicio.service';
+import { AlertController } from '@ionic/angular';
+
 
 
 @Component({
@@ -19,18 +21,24 @@ export class RegistrarPage  {
 
 
 
-  constructor(private authService: ServicioService,private router: Router) {}
+  constructor(private authService: ServicioService,private router: Router, private alertController: AlertController) {}
 
-  register() {
+  async register() {
+    try {
+      await this.authService.signUp(this.nombre, this.cedula + "@dominio.com", this.celular, this.correo, this.password);
   
-    this.authService.signUp(this.nombre, this.cedula+"@dominio.com", this.celular, this.correo, this.password, )
-      .then(() => {
-        console.log('Registro exitoso');
-        this.router.navigate(['/home']);
-      })
-      .catch((error) => {
-        console.error('Error de registro:', error.message);
+      const alert = await this.alertController.create({
+        header: 'Registro Exitoso',
+        message: 'Usuario registrado con éxito.',
+        buttons: ['OK']
       });
+  
+      await alert.present();
+  
+      this.router.navigate(['/home']);
+    } catch (error) {
+      console.error('Error de registro:', error);
+    }
   }
- 
+  
 }
