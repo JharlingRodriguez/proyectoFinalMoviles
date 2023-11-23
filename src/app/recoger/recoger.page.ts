@@ -10,6 +10,7 @@ import { AlertController } from '@ionic/angular';
 export class RecogerPage {
   carril: string = "";
   usuarioUid: any;
+  alumnos: any;
 
   constructor(private firebaseService: ServicioService, private alertController: AlertController) { }
 
@@ -21,35 +22,37 @@ export class RecogerPage {
       // Puedes manejar el caso donde usuarioActual no está definido, por ejemplo, redirigir a la página de inicio de sesión.
       console.error('El objeto usuarioActual no está definido.');
     }
+
+    this.obtenerAlumnos()
   }
 
-  async registrarRecogida() {
-    const usuario = this.firebaseService.usuarioActual.uid;
-
-    try {
-      await this.firebaseService.registrarRecogida(this.carril, usuario);
-      console.log('Recogida registrada con éxito');
-      await this.presentSuccessAlert('Recogida registrada con éxito');
-    } catch (error) {
-      console.error('Error al registrar recogida:', error);
-      await this.presentErrorAlert('Error al registrar la recogida');
+  obtenerAlumnos() {
+    if (this.firebaseService.usuarioActual) {
+      const usuarioUid = this.firebaseService.usuarioActual.uid;
+  
+      this.firebaseService.obtenerAlumnosPorUsuario(usuarioUid).subscribe(data => {
+        this.alumnos = data;
+      });
     }
   }
 
-  async eliminarRecogida(id: string) {
-    try {
-      // Elimina la recogida de la base de datos
-      await this.firebaseService.eliminarRecogida(id);
-      console.log('Recogida eliminada con éxito');
-      
-      // Muestra una alerta de éxito
-      await this.presentSuccessAlert('Recogida eliminada con éxito');
-    } catch (error) {
-      console.error('Error al eliminar recogida:', error);
-      
-      // Muestra una alerta de error
-      await this.presentErrorAlert('Error al eliminar la recogida');
-    }
+  montarAlumno(alumnoId: any) {
+    this.firebaseService.montarAlumno(alumnoId).then(() => {
+      console.log('Alumno montado en carril:', alumnoId);
+      // Actualiza la lista de alumnos si es necesario
+    }).catch(error => {
+      console.error('Error al montar al alumno:', error);
+    });
+  }
+
+  // Función para marcar al alumno como no recogido
+  eliminarAlumno(alumnoId: string) {
+    this.firebaseService.eliminarMontadaAlumno(alumnoId).then(() => {
+      console.log('Alumno eliminado del carril:', alumnoId);
+      // Actualiza la lista de alumnos si es necesario
+    }).catch(error => {
+      console.error('Error al eliminar al alumno:', error);
+    });
   }
 
   async presentSuccessAlert(message: string) {

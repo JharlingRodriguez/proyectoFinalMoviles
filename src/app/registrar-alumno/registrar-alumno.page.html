@@ -11,11 +11,18 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Sección</ion-label>
-    <ion-select [(ngModel)]="seccion" placeholder="Seleccionar" aria-label="Sección">
+    <ion-select [(ngModel)]="seccion" placeholder="Grado escolar" aria-label="Sección">
       <ion-select-option value="prescolar">Prescolar</ion-select-option>
       <ion-select-option value="primaria">Primaria</ion-select-option>
       <ion-select-option value="bachillerato">Bachillerato</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select [(ngModel)]="carril" placeholder="Carril">
+      <ion-select-option value="carril1">Carril 1</ion-select-option>
+      <ion-select-option value="carril2">Carril 2</ion-select-option>
+      <ion-select-option value="carril3">Carril 3</ion-select-option>
     </ion-select>
   </ion-item>
 

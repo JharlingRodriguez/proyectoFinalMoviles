@@ -17,6 +17,7 @@ export class RegistrarPage  {
   celular: string="";
   correo: string="";
   password: string="";
+  carril: string="";
 
 
 
@@ -24,7 +25,7 @@ export class RegistrarPage  {
 
   async register() {
     try {
-      await this.authService.signUp(this.nombre, this.cedula + "@dominio.com", this.celular, this.correo, this.password);
+      await this.authService.signUp(this.nombre, this.cedula + "@dominio.com", this.celular, this.correo, this.password, this.carril);
   
       const alert = await this.alertController.create({
         header: 'Registro Exitoso',

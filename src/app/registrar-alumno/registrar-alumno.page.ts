@@ -11,23 +11,27 @@ export class RegistrarAlumnoPage implements OnInit {
   nombre: string="";
   seccion: string="";
   alumnos: any;
+  carril: any;
 
 
   constructor(private firebaseService:ServicioService, private alertController: AlertController) { }
 
-  registrarAlumno() {
+  async registrarAlumno() {
     if (this.firebaseService.usuarioActual) {
       const usuarioUid = this.firebaseService.usuarioActual.uid;
-  
-      this.firebaseService.registrarAlumno(this.nombre, this.seccion, usuarioUid)
-        .then(() => {
-          console.log('Alumno registrado con éxito');
+      let alumnoId = '';
+
+      await this.firebaseService.registrarAlumno(this.nombre, this.seccion, usuarioUid, this.carril)
+        .then((data) => {
+          alumnoId = data.alumnoId;
           this.presentAlert('Éxito', 'Alumno registrado con éxito.');
         })
         .catch((error) => {
           console.error('Error al registrar alumno:', error);
           this.presentAlert('Error', 'Hubo un error al registrar al alumno.');
         });
+
+        this.obtenerAlumnos()
     }
   }
 
@@ -51,22 +55,19 @@ obtenerAlumnos() {
   if (this.firebaseService.usuarioActual) {
     const usuarioUid = this.firebaseService.usuarioActual.uid;
 
-    this.firebaseService.obtenerAlumnosPorUsuario(usuarioUid).subscribe((data) => {
-      this.alumnos = data.map((e) => {
-        return {
-          id: e.payload.doc.id,
-          ...(e.payload.doc.data() as {}),
-        };
-      });
+    this.firebaseService.obtenerAlumnosPorUsuario(usuarioUid).subscribe(data => {
+      this.alumnos = data;
+      console.log(data)
     });
   }
 }
+
 
 eliminarAlumno(id: string) {
   this.firebaseService.eliminarAlumno(id)
     .then(() => {
       console.log('Alumno eliminado con éxito');
-      this.obtenerAlumnos(); // Vuelve a obtener la lista de alumnos después de eliminar uno
+      this.obtenerAlumnos();
     })
     .catch((error) => {
       console.error('Error al eliminar alumno:', error);
